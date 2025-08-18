@@ -12,7 +12,7 @@ This mod adds new features as well as many customization options to the in-game 
 + **Instant Photos**: Allows to immediately take photos one after another without waiting through the animation of taking out the picture. (This will lead to animation desync but is fully functional).
 + **Film Unloading**: Allows to unload film from the camera in the inventory. (Enabled by default).
 
-Photos get saved in a special SavedPhotos folder inside your mod folder.
+Photos get saved in a special SavedPhotos folder inside your mods folder.
 
 # Installation
 
