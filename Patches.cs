@@ -12,6 +12,7 @@ using Il2CppSteamworks;
 using Il2CppTLD.UI;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine.UIElements;
+using Il2CppParadoxNotion.Serialization.FullSerializer;
 
 
 namespace BetterCamera
@@ -26,7 +27,10 @@ namespace BetterCamera
             public static void Postfix(ref PhotoManager __instance)
             {
                 BetterCameraMelon.CanSavePicture = true;
-                HUDMessage.AddMessage("Press '" + Settings.instance.keyCode + "' to save photo.", true, true);
+                if(Settings.instance.popups)
+                {
+                    HUDMessage.AddMessage("Press '" + Settings.instance.keyCode + "' to save photo.", true, true);
+                }
             }
 
         }
@@ -38,11 +42,12 @@ namespace BetterCamera
             {
                 PhotoManager pm = GameManager.GetPhotoManager();
                 pm.m_FieldOfViewScalar = Settings.instance.photofov;
+    
 
             }
 
         }
-
+       
 
         [HarmonyPatch(typeof(GunItem), "Awake")]
         public static class CameraPatch
@@ -59,10 +64,11 @@ namespace BetterCamera
                     {
                         __instance.m_FiringRateSeconds = 6.333f;
                     }
+                    __instance.m_SupportsUnload = Settings.instance.unloading;
+                    __instance.m_ClipSize = Settings.instance.clipsize;
+                    __instance.m_RoundsToReloadPerClip = Settings.instance.clipsize;
                 }
-                __instance.m_SupportsUnload = Settings.instance.unloading;
-                __instance.m_ClipSize = Settings.instance.clipsize;
-                __instance.m_RoundsToReloadPerClip = Settings.instance.clipsize;
+
 
             }
 

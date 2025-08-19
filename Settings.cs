@@ -27,6 +27,14 @@ namespace BetterCamera
         [Slider(0.5f, 2f, 1)]
         public float photofov = 1f;
 
+        [Name("Enable Save Photo Pop-up")]
+        [Description("Whether or not to display pop-ups regarding photo saving. [Default: true]")]
+        public bool popups = true;
+
+        [Name("Enable Melon Logging")]
+        [Description("Whether or not to display log messages and potential photo saving errors in the Melon log. [Default: true]")]
+        public bool melonlogs = true;
+        
         [Section("Keybinds")]
 
         [Name("Save Photo")]
@@ -52,6 +60,8 @@ namespace BetterCamera
         {
             if (instance.ResetSettings == true)
             {
+                instance.melonlogs = true;
+                instance.popups = true;
                 instance.clipsize = 6;
                 instance.instantphoto = false;
                 instance.unloading = true;

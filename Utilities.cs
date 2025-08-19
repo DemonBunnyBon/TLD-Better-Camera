@@ -25,7 +25,11 @@ namespace BetterCamera
             }
             else
             {
-                MelonLogger.LogError("Could not encode camera photo");
+                if(Settings.instance.melonlogs)
+                {
+                    MelonLogger.Msg("Could not encode camera photo: Bytes are empty.");
+                }
+
             }
 
 

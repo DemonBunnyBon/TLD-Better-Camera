@@ -14,6 +14,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
+
 namespace BetterCamera
 {
 	public class BetterCameraMelon : MelonMod
@@ -40,13 +41,29 @@ namespace BetterCamera
                         Directory.CreateDirectory("Mods/SavedPhotos");
                     }
                     tex.Save("Mods/SavedPhotos/" + photoname);
-                    MelonLogger.Log("Photo saved as: " + photoname + " in Mods folder.");
-                    InterfaceManager.GetPanel<Panel_Subtitles>().ShowSubtitlesForced("Photo saved as: " + photoname + " in 'SavedPhotos' folder inside Mods folder.",3f);
+                    if(Settings.instance.melonlogs)
+                    {
+                        MelonLogger.Msg("Photo saved as: " + photoname + " in Mods folder.");
+                    }
+                    if(Settings.instance.popups)
+                    {
+                        InterfaceManager.GetPanel<Panel_Subtitles>().ShowSubtitlesForced("Photo saved as: " + photoname + " in 'SavedPhotos' folder inside Mods folder.", 4f);
+                    }
+
                     CanSavePicture = false;
                 }
                 else
                 {
-                    InterfaceManager.GetPanel<Panel_Subtitles>().ShowSubtitlesForced("Failed to save photo.",3f);
+                    if (Settings.instance.popups)
+                    {
+                        InterfaceManager.GetPanel<Panel_Subtitles>().ShowSubtitlesForced("Failed to save photo.", 4f);
+                    }
+
+                    if (Settings.instance.melonlogs)
+                    {
+                        MelonLogger.Error("Could not encode camera photo: No Image Found.");
+                    }
+
 
                     CanSavePicture = false;
                 }
