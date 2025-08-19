@@ -19,4 +19,5 @@ Photos get saved in a special SavedPhotos folder inside your mods folder.
 - Install [Mod Settings](https://github.com/DigitalzombieTLD/ModSettings/releases/), it is required.
 - Drop the .dll file into your mods folder.
 
-
+## Support
+You can support me via donations [here](https://ko-fi.com/marcythejinx)!
