@@ -20,13 +20,14 @@ namespace BetterCamera
 
     internal static class Patches
     {
-        [HarmonyPatch(typeof(PhotoManager), "SetPhotoTexture")]
+        [HarmonyPatch(typeof(PhotoManager), nameof(PhotoManager.SetPhotoTexture))]
 
         public static class PicturePatch
         {
             public static void Postfix(ref PhotoManager __instance)
             {
-                BetterCameraMelon.CanSavePicture = true;
+                GameManager.m_vpFPSCamera.m_UnzoomedFieldOfView = BetterCameraMelon.cameraFOVBeforeAim;
+                BetterCameraMelon.canSavePicture = true;
                 if(Settings.instance.popups)
                 {
                     HUDMessage.AddMessage("Press '" + Settings.instance.keyCode + "' to save photo.", true, true);
@@ -35,43 +36,38 @@ namespace BetterCamera
 
         }
 
-        [HarmonyPatch(typeof(GameManager), "Awake")]
-        public static class FOVPatch
-        {
-            public static void Postfix(ref GameManager __instance)
-            {
-                PhotoManager pm = GameManager.GetPhotoManager();
-                pm.m_FieldOfViewScalar = Settings.instance.photofov;
-    
-
-            }
-
-        }
-       
-
-        [HarmonyPatch(typeof(GunItem), "Awake")]
-        public static class CameraPatch
+        [HarmonyPatch(typeof(GunItem), nameof(GunItem.Awake))]
+        public static class CameraStatsPatch
         {
             public static void Postfix(ref GunItem __instance)
             {
                 if(__instance.m_GunType == GunType.Camera)
                 {
-                    if (Settings.instance.instantphoto)
-                    {
-                        __instance.m_FiringRateSeconds = 0;
-                    }
-                    else
-                    {
-                        __instance.m_FiringRateSeconds = 6.333f;
-                    }
                     __instance.m_SupportsUnload = Settings.instance.unloading;
                     __instance.m_ClipSize = Settings.instance.clipsize;
                     __instance.m_RoundsToReloadPerClip = Settings.instance.clipsize;
+                    if(Settings.instance.tooltip)
+                    {
+                        __instance.m_FireButtonLabel = "Take Photo";
+                    }
+                    __instance.m_MultiplierAiming = Settings.instance.aimspeed;
                 }
 
 
             }
 
+        }
+
+        [HarmonyPatch(typeof(GunItem), nameof(GunItem.ZoomEnd))]
+        public static class CameraStopAimPatch
+        {
+            public static void Postfix(ref GunItem __instance)
+            {
+                if (__instance.m_GunType == GunType.Camera)
+                {
+                    GameManager.m_vpFPSCamera.m_UnzoomedFieldOfView = BetterCameraMelon.cameraFOVBeforeAim;
+                }
+            }
         }
 
 
