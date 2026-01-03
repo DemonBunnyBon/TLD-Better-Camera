@@ -42,7 +42,7 @@ namespace BetterCamera
 
         [Name("Enable Melon Logging")]
         [Description("Whether or not to display log messages and potential photo saving errors in the Melon log. [Default: true]")]
-        public bool melonlogs = true;
+        public bool melonlogs = false;
         
         [Section("Keybinds")]
 

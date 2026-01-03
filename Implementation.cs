@@ -1,21 +1,4 @@
-﻿using MelonLoader;
-using UnityEngine;
-using Il2CppInterop;
-using Il2CppInterop.Runtime.Injection; 
-using System.Collections;
-using Il2CppTLD.Gear;
-using Il2Cpp;
-using Il2CppTLD.IntBackedUnit;
-using Il2CppVLB;
-using Il2CppSystem;
-using Il2CppSWS;
-using Harmony;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using Il2CppTLD.Gameplay;
-
-
-
+﻿
 namespace BetterCamera
 {
 	public class BetterCameraMelon : MelonMod
@@ -29,7 +12,6 @@ namespace BetterCamera
 		{
             Settings.instance.AddToModSettings("Better Camera");
 
-         
         }
 
         public override void OnSceneWasInitialized(int buildIndex, string sceneName)
@@ -43,7 +25,7 @@ namespace BetterCamera
 
         public override void OnUpdate()
         {
-            if(!GameManager.IsMainMenuActive() && pm != null && pm.PlayerIsZooming() == false && Settings.instance.dynazoom == true)
+            if(!GameManager.IsMainMenuActive() && pm != null && pm.PlayerIsZooming() == false && Settings.instance.dynazoom == true && cam != null)
             {
                 cameraFOVBeforeAim = cam.m_UnzoomedFieldOfView;
             }
@@ -91,22 +73,30 @@ namespace BetterCamera
             }
             if(Settings.instance.dynazoom == true)
             {
-                if (!GameManager.IsMainMenuActive() && InputManager.instance != null && (InputManager.GetScroll(InputManager.m_CurrentContext) > 0 || InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.instance.zoomin)) && pm.PlayerIsZooming() == true && pm != null && GameManager.m_vpFPSCamera.CurrentWeapon.m_GunItem.m_GunType == GunType.Camera)
+                if (!GameManager.IsMainMenuActive() && InputManager.instance != null && (InputManager.GetScroll(InputManager.m_CurrentContext) > 0 || InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.instance.zoomin)) && pm != null && pm.PlayerIsZooming() == true && GameManager.m_vpFPSCamera.CurrentWeapon.m_GunItem.m_GunType == GunType.Camera)
                 {
-                    cam.m_UnzoomedFieldOfView = System.Math.Clamp(cam.m_UnzoomedFieldOfView - 1.5f, 12, 87);
-                    if(Settings.instance.scrollsound == true)
+                    if(cam!= null)
                     {
-                        GameAudioManager.PlayGUIScroll();
+                        cam.m_UnzoomedFieldOfView = System.Math.Clamp(cam.m_UnzoomedFieldOfView - 1.5f, 12, 87);
+                        if (Settings.instance.scrollsound == true)
+                        {
+                            GameAudioManager.PlayGUIScroll();
+                        }
                     }
+
                     
                 }
-                if (!GameManager.IsMainMenuActive() && InputManager.instance != null && (InputManager.GetScroll(InputManager.m_CurrentContext) < 0 || InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.instance.zoomout)) && pm.PlayerIsZooming() == true && pm != null && GameManager.m_vpFPSCamera.CurrentWeapon.m_GunItem.m_GunType == GunType.Camera)
+                if (!GameManager.IsMainMenuActive() && InputManager.instance != null && (InputManager.GetScroll(InputManager.m_CurrentContext) < 0 || InputManager.GetKeyDown(InputManager.m_CurrentContext, Settings.instance.zoomout)) && pm != null && pm.PlayerIsZooming() == true && GameManager.m_vpFPSCamera.CurrentWeapon.m_GunItem.m_GunType == GunType.Camera)
                 {
-                    cam.m_UnzoomedFieldOfView = System.Math.Clamp(cam.m_UnzoomedFieldOfView + 1.5f, 12, 87);
-                    if (Settings.instance.scrollsound == true)
+                    if (cam != null)
                     {
-                        GameAudioManager.PlayGUIScroll();
+                        cam.m_UnzoomedFieldOfView = System.Math.Clamp(cam.m_UnzoomedFieldOfView + 1.5f, 12, 87);
+                        if (Settings.instance.scrollsound == true)
+                        {
+                            GameAudioManager.PlayGUIScroll();
+                        }
                     }
+
                 }
             }
 

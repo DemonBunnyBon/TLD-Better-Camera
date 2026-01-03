@@ -1,8 +1,4 @@
-﻿using UnityEngine;
-using Il2Cpp;
-using MelonLoader;
-using UnityEngine.AddressableAssets;
-
+﻿
 namespace BetterCamera
 {
     internal static class BetterCameraUtils
